@@ -61,17 +61,35 @@
 				// return setInterval(function(){
 				// 	clear()
 					// drawWave(startX, freq, amp * Math.sin(t+=0.05), 0, lineWidth)
-					drawWave(startX, freq / 5, amp * Math.sin(freq * t), 0, lineWidth)
+					drawWave(startX, freq / 5, amp * Math.sin(freq * t * 2), 0, lineWidth)
 				// })
+			}
+
+			function verticalLine(x, lw){
+				context.beginPath();
+				context.lineWidth = lw;
+				context.moveTo(x, 0)
+				context.lineTo(x, height)
+				context.stroke()
 			}
 
 			function animateAll(){
 				return setInterval(function(){
 					clear()
 					t+=0.05
-					var a = 25;
+
+
 					for(var i = 0; i < freqs.length; i++){
-						animate(2 * a + 100 * i, freqs[i] / 750, a, 1 + 0.25 * (freqs.length - 1 - i))
+
+						var a = 25;
+						var lw = 1 + 0.25 * (freqs.length - 1 - i);
+						var x = 2 * a + 100 * i;
+
+						if(freqs[i] == 0){
+							verticalLine(x, lw)
+							continue;
+						}
+						animate(x, freqs[i] / 750, a, lw)
 					}
 					// animate(50, 0.05, 25, 1)
 					// animate(150, 0.06, 25, 1.25)
