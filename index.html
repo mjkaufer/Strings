@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+
+	</head>
+	<body>
+		<canvas id="canvas" style="width: 500px; height: 1200px;" width="400" height="1200"></canvas>
+		<script>
+			var canvas = document.getElementById('canvas')
+
+			var context = canvas.getContext('2d')
+			var height, width;
+			
+			var t = 0;
+			var v = 0.5;
+			var freqs = [400, 500, 600, 700]
+			init();
+			animateAll()
+			function init(){
+				height = canvas.height;
+				width = canvas.width;
+			}
+
+			function clear(){
+				context.clearRect(0, 0, width, height);
+			}
+
+			function draw(){
+				context.beginPath();
+				context.moveTo(0,5);
+				
+				context.lineTo(5, 0)
+				context.stroke()
+			}
+
+			function drawWave(startX, freq, amp, shift, lineWidth){
+				context.beginPath()
+				context.lineWidth = lineWidth || 1;
+				amp = amp || 25;
+				freq = freq || 0.05;
+				shift = shift || 0;
+				var scale = v / freq
+
+				for(var i = 0; i < height / scale; i++){
+					// context.moveTo(startX - o + Math.round(amp * Math.sin(freq * i)), i)
+					context.lineTo(startX + Math.round(amp * Math.sin(freq * i + shift)), i * scale)
+				}
+
+				context.stroke()
+			}
+
+			function animate(startX, freq, amp, lineWidth){
+				// return setInterval(function(){
+				// 	clear()
+					// drawWave(startX, freq, amp * Math.sin(t+=0.05), 0, lineWidth)
+					drawWave(startX, freq, amp * Math.sin(t), 0, lineWidth)
+				// })
+			}
+
+			function animateAll(){
+				return setInterval(function(){
+					clear()
+					t+=0.05
+					var a = 25;
+					for(var i = 0; i < freqs.length; i++){
+						animate(2 * a + 100 * i, freqs[i] / 10000, a, 1 + 0.25 * i)
+					}
+					// animate(50, 0.05, 25, 1)
+					// animate(150, 0.06, 25, 1.25)
+					// animate(250, 0.07, 25, 1.5)
+					// animate(350, 0.08, 25, 1.75)
+				})
+				
+			}
+
+		</script>
+	</body>
+</html>
