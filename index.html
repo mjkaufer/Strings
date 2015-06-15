@@ -1,10 +1,17 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-
+		<style>
+			body{
+				margin: 0;
+			}
+			canvas{
+				padding: 0;
+			}
+		</style>
 	</head>
 	<body>
-		<canvas id="canvas" style="width: 500px; height: 1200px;" width="400" height="1200"></canvas>
+		<canvas id="canvas" style="width: 500px; height: 1200px;" width="600" height="1200"></canvas>
 		<script>
 			var canvas = document.getElementById('canvas')
 
@@ -12,8 +19,9 @@
 			var height, width;
 			
 			var t = 0;
-			var v = 0.5;
-			var freqs = [400, 500, 600, 700]
+			var v = 0.125;
+			var freqs = [82, 110, 147, 196, 247, 329]
+			// var freqs = [82, 200, 347, 496, 547, 909]
 			init();
 			animateAll()
 			function init(){
@@ -43,7 +51,7 @@
 
 				for(var i = 0; i < height / scale; i++){
 					// context.moveTo(startX - o + Math.round(amp * Math.sin(freq * i)), i)
-					context.lineTo(startX + Math.round(amp * Math.sin(freq * i + shift)), i * scale)
+					context.lineTo(startX + Math.round(amp * Math.sin(i * freq + shift)), i * scale )//multiplying by freq in here only changes the frequency of the bumps, not of the oscillations
 				}
 
 				context.stroke()
@@ -53,7 +61,7 @@
 				// return setInterval(function(){
 				// 	clear()
 					// drawWave(startX, freq, amp * Math.sin(t+=0.05), 0, lineWidth)
-					drawWave(startX, freq, amp * Math.sin(t), 0, lineWidth)
+					drawWave(startX, freq / 5, amp * Math.sin(freq * t), 0, lineWidth)
 				// })
 			}
 
@@ -63,7 +71,7 @@
 					t+=0.05
 					var a = 25;
 					for(var i = 0; i < freqs.length; i++){
-						animate(2 * a + 100 * i, freqs[i] / 10000, a, 1 + 0.25 * i)
+						animate(2 * a + 100 * i, freqs[i] / 750, a, 1 + 0.25 * (freqs.length - 1 - i))
 					}
 					// animate(50, 0.05, 25, 1)
 					// animate(150, 0.06, 25, 1.25)
